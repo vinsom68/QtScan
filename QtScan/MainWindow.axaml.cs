@@ -98,6 +98,7 @@ namespace QtScan
         {
             if(camera.Open(cboDevices.SelectedIndex))
             {
+                ScanQrCode();
                 timer1.Enabled = true;
                 timer1.Start();
             }
@@ -124,9 +125,14 @@ namespace QtScan
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+            ScanQrCode();
+        }
+
+        private void ScanQrCode()
+        {
             Mat frame= new Mat();
-            while (true) {
+            while (true) 
+            {
                 // Capture a new frame from the camera
                 camera.Read(frame);
                 //frame.SaveImage("Test.png");
@@ -144,11 +150,7 @@ namespace QtScan
                     camera.Release();
                     QrText.Text=result;
                 }
-
-
             }
-
-
         }
 
         private void Dispose()
