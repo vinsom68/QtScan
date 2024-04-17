@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="QtScan.MainWindow"
+        Title="QtScan">
+   
+
+	
+   <StackPanel>
+      <TextBlock>Welcome to Avalonia!</TextBlock>
+	   <TextBox Name="QrText" TextChanged="QrText_TextChanged"/>
+       <Button  Click="OnBtnSelectCamera">Select Camera device</Button>
+	   <ComboBox Name="cboDevices"></ComboBox>
+	   <Button Name="btnStartScan"  Click="OnBtnStartScan">Start Scan</Button>
+	   <Image Name="QrImage"></Image>
+	   <!--<PictureBox Name="picCamera"></PictureBox>-->
+   </StackPanel>
+	
+</Window>
