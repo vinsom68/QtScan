@@ -397,3 +397,14 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+QtScan/bin/Debug/net8.0/QtScan.dll
+QtScan/bin/Debug/net8.0/QtScan.pdb
+QtScan/obj/Debug/net8.0/QtScan.AssemblyInfo.cs
+QtScan/obj/Debug/net8.0/QtScan.AssemblyInfoInputs.cache
+QtScan/obj/Debug/net8.0/QtScan.dll
+QtScan/obj/Debug/net8.0/QtScan.pdb
+QtScan/obj/Debug/net8.0/Avalonia/original.dll
+QtScan/obj/Debug/net8.0/Avalonia/original.pdb
+QtScan/obj/Debug/net8.0/Avalonia/original.ref.dll
+QtScan/obj/Debug/net8.0/ref/QtScan.dll
+QtScan/obj/Debug/net8.0/refint/QtScan.dll
