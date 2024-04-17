@@ -20,6 +20,7 @@ using Avalonia.Media;
 using OpenCvSharp;
 using QRCoder.Extensions;
 using SkiaSharp;
+using Microsoft.VisualBasic.FileIO;
 
 namespace QtScan
 {
@@ -105,8 +106,16 @@ namespace QtScan
             {
                 // Capture a new frame from the camera
                 camera.Read(frame);
+                
+                MemoryStream memory=frame.ToMemoryStream(".png");
+                Avalonia.Media.Imaging.Bitmap AvIrBitmap = new Avalonia.Media.Imaging.Bitmap(memory);
+                QrImage.Source=AvIrBitmap;
+                memory.Dispose();
+                
+
                 var decoder = new OpenCvSharp.QRCodeDetector();
                 Point2f[] points;
+                frame.SaveImage("delete.png");
                 var result=decoder.DetectAndDecode(frame,out points);
                 if(string.IsNullOrEmpty(result))
                     return;
