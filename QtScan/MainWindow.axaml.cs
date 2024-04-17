@@ -55,35 +55,11 @@ namespace QtScan
             }
 
 
-            /*CaptureDevice = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo Device in CaptureDevice)
-            {
-                cboDevices.Items.Add(Device.Name);
-            }*/
-
             cboDevices.SelectedIndex = 0;
-            //FinalFrame = new VideoCaptureDevice();
-
-            timer1 = new System.Timers.Timer(60000);
+            timer1 = new System.Timers.Timer(500);
             timer1.Elapsed += timer1_Tick;
-
-
-
         }
 
-
-        /*private static int SelectCameraIndex()
-        {
-            var cameras = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
-            if (cameras.Length == 1) return 0;
-            foreach (var (camera, index) in WithIndex(cameras))
-            {
-                Console.WriteLine($"{index}:{camera.Name}");
-            }
-            Console.WriteLine("Select a camera from the list above:");
-            var camIndex = Convert.ToInt32(Console.ReadLine());
-            return camIndex;
-        }*/
 
         private void QrText_TextChanged(object? sender, TextChangedEventArgs e)
         {
@@ -108,12 +84,6 @@ namespace QtScan
         
         }
 
-        /*private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            //QrImage.Source =(Bitmap)eventArgs.Frame.Clone();
-            bmpCamera = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
-        }*/
-
         private void OnBtnStartScan(object source, RoutedEventArgs args)
         {
             //timer1.Enabled = true;
@@ -135,10 +105,6 @@ namespace QtScan
             {
                 // Capture a new frame from the camera
                 camera.Read(frame);
-                //frame.SaveImage("Test.png");
-                byte[] byteImage;
-                frame.GetArray(out byteImage);
-
                 var decoder = new OpenCvSharp.QRCodeDetector();
                 Point2f[] points;
                 var result=decoder.DetectAndDecode(frame,out points);
@@ -155,19 +121,8 @@ namespace QtScan
 
         private void Dispose()
         {
-            /*if (FinalFrame.IsRunning == true)
-            {
-                FinalFrame.Stop();
-            }*/
+
         }
-
-        //https://stackoverflow.com/questions/17424360/qr-code-webcam-scanner-c-sharp
-
-//https://github.com/kekyo/FlashCap
-//https://stackoverflow.com/questions/69420976/capture-images-from-webcam-using-c-sharp-with-net5
-//https://blog.dotnetframework.org/2020/12/29/capture-a-webcam-image-using-net-core-and-opencv/
-//https://blog.dotnetframework.org/2020/12/30/record-mp4-h264-video-from-a-webcam-in-c-net-core/
-
 
 
     }
