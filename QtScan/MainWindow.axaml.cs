@@ -65,6 +65,7 @@ namespace QtScan
 
         private void OnBtnStartScan(object source, RoutedEventArgs args)
         {
+            QrText.Text=string.Empty;
             tokenSource2=new();
             ct=tokenSource2.Token;
             if(camera.Open(cboDevices.SelectedIndex))
@@ -80,13 +81,18 @@ namespace QtScan
 
         private void OnBtnStopScan(object source, RoutedEventArgs args)
         {
+            StopScan(true) ;
+        }
+
+        private void StopScan(bool nullImage)
+        {
                 tokenSource2.Cancel();
                 btnStartScan.IsVisible=true;
                 btnStopScan.IsVisible=false;
                 camera.Release();
-                SetImage(null);
+                if(nullImage)
+                 SetImage(null);
                 tokenSource2.Dispose();
-
         }
 
         private async Task<(IImage? image, string? text)> ScanQrCode()
@@ -121,6 +127,7 @@ namespace QtScan
                     {
                         camera.Release();
                         Dispatcher.UIThread.Post(async () => await SetText(stringResult[0]));
+                        Dispatcher.UIThread.Post( () =>  StopScan(false));
                         break;
                     }
                 }
