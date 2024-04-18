@@ -21,6 +21,8 @@ using OpenCvSharp;
 using QRCoder.Extensions;
 using SkiaSharp;
 using Microsoft.VisualBasic.FileIO;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace QtScan
 {
@@ -76,8 +78,8 @@ namespace QtScan
             if(camera.Open(cboDevices.SelectedIndex))
             {
                 ScanQrCode();
-                timer1.Enabled = true;
-                timer1.Start();
+                //timer1.Enabled = true;
+                //timer1.Start();
             }
             else
                 Console.WriteLine("Could not grab from the video capture device.");
@@ -104,7 +106,6 @@ namespace QtScan
             Mat frame= new Mat();
             while (true) 
             {
-                // Capture a new frame from the camera
                 camera.Read(frame);
                 
                 MemoryStream memory=frame.ToMemoryStream(".png");
@@ -112,19 +113,23 @@ namespace QtScan
                 QrImage.Source=AvIrBitmap;
                 memory.Dispose();
                 
-
                 var decoder = new OpenCvSharp.QRCodeDetector();
                 Point2f[] points;
-                frame.SaveImage("delete.png");
-                var result=decoder.DetectAndDecode(frame,out points);
-                if(string.IsNullOrEmpty(result))
-                    return;
-                else
+                string[]? stringResult=null;
+
+                if(decoder.DetectMulti(frame,out points))
                 {
-                    timer1.Stop();
-                    camera.Release();
-                    QrText.Text=result;
+                    if(decoder.DecodeMulti(frame,points,out stringResult))
+                    {
+                        timer1.Stop();
+                        camera.Release();
+                        QrText.Text=stringResult[0];
+                        break;
+                    }
                 }
+                else
+                    Task.Delay(100).GetAwaiter().GetResult();
+
             }
         }
 
