@@ -11,12 +11,8 @@ using Bitmap = Avalonia.Media.Imaging.Bitmap;
 using System;
 using ZXing;
 using System.Threading;
-//using System.Drawing.Common;
-//using ZXing.Windows.Compatibility;
 using ZXing.Common;
 using Avalonia.Media;
-//using Emgu.CV;
-//using Accord.Video.DirectShow;
 using OpenCvSharp;
 using QRCoder.Extensions;
 using SkiaSharp;
@@ -28,20 +24,13 @@ namespace QtScan
 {
     public partial class MainWindow : Avalonia.Controls.Window
     {
-        //private FilterInfoCollection CaptureDevice;
-        //private VideoCaptureDevice FinalFrame;
-        private System.Timers.Timer timer1;
-        //private System.Drawing.Bitmap bmpCamera;
-        //private CoreCompact.System,Drawing bmpCamera;
         private VideoCapture camera;
 
-        
-
+    
         public MainWindow()
         {
             InitializeComponent();
             camera = new VideoCapture();
-            //camera.Open(0); // Open the default camera (webcam)
 
             int deviceCount = 0;
             Console.WriteLine("Video capture devices:");
@@ -57,10 +46,8 @@ namespace QtScan
                 deviceCount++;
             }
 
-
-            cboDevices.SelectedIndex = 0;
-            timer1 = new System.Timers.Timer(500);
-            timer1.Elapsed += timer1_Tick;
+            if(deviceCount>0)
+                cboDevices.SelectedIndex = 0;
         }
 
 
@@ -73,32 +60,13 @@ namespace QtScan
         }
 
 
-        public void OnBtnSelectCamera(object source, RoutedEventArgs args)
+        private void OnBtnStartScan(object source, RoutedEventArgs args)
         {
             if(camera.Open(cboDevices.SelectedIndex))
-            {
                 ScanQrCode();
-                //timer1.Enabled = true;
-                //timer1.Start();
-            }
             else
                 Console.WriteLine("Could not grab from the video capture device.");
 
-        
-        }
-
-        private void OnBtnStartScan(object source, RoutedEventArgs args)
-        {
-            //timer1.Enabled = true;
-            //timer1.Start();
-            //Console.WriteLine("Scanner Strated");
-
-        }
-
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            ScanQrCode();
         }
 
         private void ScanQrCode()
@@ -121,7 +89,6 @@ namespace QtScan
                 {
                     if(decoder.DecodeMulti(frame,points,out stringResult))
                     {
-                        timer1.Stop();
                         camera.Release();
                         QrText.Text=stringResult[0];
                         break;
@@ -135,11 +102,7 @@ namespace QtScan
 
         private void Dispose()
         {
-
+            camera.Dispose();
         }
-
-
     }
-
-
 }

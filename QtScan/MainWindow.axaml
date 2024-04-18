@@ -11,9 +11,8 @@
    <StackPanel>
       <TextBlock>Welcome to Avalonia!</TextBlock>
 	   <TextBox Name="QrText" TextChanged="QrText_TextChanged"/>
-       <Button  Click="OnBtnSelectCamera">Select Camera device</Button>
+      <Button  Click="OnBtnStartScan">Scan</Button>
 	   <ComboBox Name="cboDevices"></ComboBox>
-	   <Button Name="btnStartScan"  Click="OnBtnStartScan">Start Scan</Button>
 	   <Image Name="QrImage"></Image>
 	   <!--<PictureBox Name="picCamera"></PictureBox>-->
    </StackPanel>
