@@ -27,7 +27,8 @@ namespace QtScan
     public partial class MainWindow : Avalonia.Controls.Window
     {
         private VideoCapture camera;
-
+        CancellationTokenSource tokenSource2;
+        CancellationToken ct;
     
         public MainWindow()
         {
@@ -64,26 +65,50 @@ namespace QtScan
 
         private void OnBtnStartScan(object source, RoutedEventArgs args)
         {
+            tokenSource2=new();
+            ct=tokenSource2.Token;
             if(camera.Open(cboDevices.SelectedIndex))
-              _ = Task.Run(async () => await ScanQrCode());
+            {
+                btnStartScan.IsVisible=false;
+                btnStopScan.IsVisible=true;
+              _ = Task.Run(async () => {await ScanQrCode();}, tokenSource2.Token);
+            }
             else
                 Console.WriteLine("Could not grab from the video capture device.");
 
         }
 
+        private void OnBtnStopScan(object source, RoutedEventArgs args)
+        {
+                tokenSource2.Cancel();
+                btnStartScan.IsVisible=true;
+                btnStopScan.IsVisible=false;
+                camera.Release();
+                SetImage(null);
+                tokenSource2.Dispose();
+
+        }
+
         private async Task<(IImage? image, string? text)> ScanQrCode()
         {
-            Avalonia.Media.Imaging.Bitmap AvIrBitmap;
+            // Were we already canceled?
+            ct.ThrowIfCancellationRequested();
+            Avalonia.Media.Imaging.Bitmap AvIrBitmap=null;
             string[]? stringResult=null;
             Mat frame= new Mat();
 
             while (true) 
             {
+                if (ct.IsCancellationRequested)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    break;
+                }
+
                 camera.Read(frame);
                 
                 MemoryStream memory=frame.ToMemoryStream(".png");
                 AvIrBitmap = new Avalonia.Media.Imaging.Bitmap(memory);
-                //QrImage.Source=AvIrBitmap;
                 Dispatcher.UIThread.Post(async () => await SetImage(AvIrBitmap));
                 memory.Dispose();
                 
@@ -95,7 +120,6 @@ namespace QtScan
                     if(decoder.DecodeMulti(frame,points,out stringResult))
                     {
                         camera.Release();
-                        //QrText.Text=stringResult[0];
                         Dispatcher.UIThread.Post(async () => await SetText(stringResult[0]));
                         break;
                     }
@@ -125,4 +149,4 @@ namespace QtScan
     }
 }
 
-//https://docs.avaloniaui.net/docs/guides/development-guides/accessing-the-ui-thread
+//https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/task-cancellation
