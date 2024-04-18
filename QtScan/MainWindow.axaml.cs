@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 using System.Diagnostics;
 using QRCoder;
 using Avalonia.Media.Imaging;
@@ -19,6 +20,7 @@ using SkiaSharp;
 using Microsoft.VisualBasic.FileIO;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace QtScan
 {
@@ -63,34 +65,38 @@ namespace QtScan
         private void OnBtnStartScan(object source, RoutedEventArgs args)
         {
             if(camera.Open(cboDevices.SelectedIndex))
-                ScanQrCode();
+              _ = Task.Run(async () => await ScanQrCode());
             else
                 Console.WriteLine("Could not grab from the video capture device.");
 
         }
 
-        private void ScanQrCode()
+        private async Task<(IImage? image, string? text)> ScanQrCode()
         {
+            Avalonia.Media.Imaging.Bitmap AvIrBitmap;
+            string[]? stringResult=null;
             Mat frame= new Mat();
+
             while (true) 
             {
                 camera.Read(frame);
                 
                 MemoryStream memory=frame.ToMemoryStream(".png");
-                Avalonia.Media.Imaging.Bitmap AvIrBitmap = new Avalonia.Media.Imaging.Bitmap(memory);
-                QrImage.Source=AvIrBitmap;
+                AvIrBitmap = new Avalonia.Media.Imaging.Bitmap(memory);
+                //QrImage.Source=AvIrBitmap;
+                Dispatcher.UIThread.Post(async () => await SetImage(AvIrBitmap));
                 memory.Dispose();
                 
                 var decoder = new OpenCvSharp.QRCodeDetector();
                 Point2f[] points;
-                string[]? stringResult=null;
-
+                
                 if(decoder.DetectMulti(frame,out points))
                 {
                     if(decoder.DecodeMulti(frame,points,out stringResult))
                     {
                         camera.Release();
-                        QrText.Text=stringResult[0];
+                        //QrText.Text=stringResult[0];
+                        Dispatcher.UIThread.Post(async () => await SetText(stringResult[0]));
                         break;
                     }
                 }
@@ -98,6 +104,18 @@ namespace QtScan
                     Task.Delay(100).GetAwaiter().GetResult();
 
             }
+
+            return(AvIrBitmap,stringResult[0]);
+        }
+
+        private async Task SetImage(IImage? image)
+        {
+            QrImage.Source=image;
+        }
+
+        private async Task SetText(string? text)
+        {
+            QrText.Text=text;
         }
 
         private void Dispose()
@@ -106,3 +124,5 @@ namespace QtScan
         }
     }
 }
+
+//https://docs.avaloniaui.net/docs/guides/development-guides/accessing-the-ui-thread
