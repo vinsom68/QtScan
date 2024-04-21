@@ -23,4 +23,10 @@
     <PackageReference Include="FFMediaToolkit" Version="3.3.0" />
     <Reference Include="netstandard" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="QtScan.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
+  </ItemGroup>
 </Project>
