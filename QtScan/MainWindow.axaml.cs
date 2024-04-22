@@ -37,14 +37,12 @@ namespace QtScan
 
             int deviceCount = 0;
             Console.WriteLine("Video capture devices:");
-            while (true) {
+            while (true) 
+            {
                 if (!camera.Open(deviceCount)) 
                     break; // Open the default video capture device
                 
-                var x=camera.Get(VideoCaptureProperties.HwDevice);
-                var x2=VideoCaptureProperties.HwDevice.GetStringValue();
-                Console.WriteLine(deviceCount + ". " + camera.Guid);
-                cboDevices.Items.Add(deviceCount + ". " + camera.Guid);
+                cboDevices.Items.Add($"{camera.CaptureType.ToString()}-{deviceCount+1}");
                 camera.Release();
                 deviceCount++;
             }
