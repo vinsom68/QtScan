@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QtScan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+240de4a7e20199cf89a521ebe1bedf7285326f7c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03f97a72fa22b1df8b2b2432be87711136c958b6")]
 [assembly: System.Reflection.AssemblyProductAttribute("QtScan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QtScan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

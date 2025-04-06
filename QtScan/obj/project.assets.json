@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net9.0": {
       "Avalonia/11.0.10": {
         "type": "package",
         "dependencies": {
@@ -331,35 +331,6 @@
         },
         "runtime": {
           "lib/net6.0/Avalonia.X11.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "FFMediaToolkit/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "FFmpeg.AutoGen": "4.3.0.1"
-        },
-        "compile": {
-          "lib/netcoreapp2.2/FFMediaToolkit.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netcoreapp2.2/FFMediaToolkit.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
-      "FFmpeg.AutoGen/4.3.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.1/FFmpeg.AutoGen.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.1/FFmpeg.AutoGen.dll": {
             "related": ".xml"
           }
         }
@@ -774,28 +745,6 @@
           }
         }
       },
-      "Microsoft.Win32.SystemEvents/8.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
-        },
-        "runtimeTargets": {
-          "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
-            "assetType": "runtime",
-            "rid": "win"
-          }
-        }
-      },
       "NETStandard.Library/1.6.0": {
         "type": "package",
         "dependencies": {
@@ -845,7 +794,7 @@
           "System.Xml.XDocument": "4.0.11"
         }
       },
-      "OpenCvSharp4/4.9.0.20240103": {
+      "OpenCvSharp4/4.10.0.20240616": {
         "type": "package",
         "dependencies": {
           "System.Memory": "4.5.5",
@@ -859,15 +808,6 @@
         "runtime": {
           "lib/net6.0/OpenCvSharp.dll": {
             "related": ".xml"
-          }
-        }
-      },
-      "OpenCvSharp4.runtime.ubuntu.22.04-x64/4.6.0-SNAPSHOT": {
-        "type": "package",
-        "runtimeTargets": {
-          "runtimes/ubuntu.22.04-x64/native/libOpenCvSharpExtern.so": {
-            "assetType": "native",
-            "rid": "ubuntu.22.04-x64"
           }
         }
       },
@@ -1190,25 +1130,6 @@
           "ref/netstandard1.5/System.Diagnostics.Tracing.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "System.Drawing.Common/8.0.4": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Win32.SystemEvents": "8.0.0"
-        },
-        "compile": {
-          "lib/net8.0/System.Drawing.Common.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/System.Drawing.Common.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "System.Dynamic.Runtime/4.3.0": {
@@ -2662,45 +2583,6 @@
         "lib/netstandard2.0/Avalonia.X11.xml"
       ]
     },
-    "FFMediaToolkit/3.3.0": {
-      "sha512": "66PkjFAA86mBP8PBuj20xi6zk8irzMY+ualg6/jKEZ93qAyPTgwJnwBSsAwkCE5O0Aq2GUQRBjJ3gyY4QaoO5A==",
-      "type": "package",
-      "path": "ffmediatoolkit/3.3.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ffmediatoolkit.3.3.0.nupkg.sha512",
-        "ffmediatoolkit.nuspec",
-        "lib/netcoreapp2.2/FFMediaToolkit.dll",
-        "lib/netcoreapp2.2/FFMediaToolkit.pdb",
-        "lib/netcoreapp2.2/FFMediaToolkit.xml",
-        "lib/netstandard2.0/FFMediaToolkit.dll",
-        "lib/netstandard2.0/FFMediaToolkit.pdb",
-        "lib/netstandard2.0/FFMediaToolkit.xml"
-      ]
-    },
-    "FFmpeg.AutoGen/4.3.0.1": {
-      "sha512": "koM5zqdZZHGAVK0faNZgi9HjCrHrMRGaTqmTEbvMSx3YeNIZBd62JQMZjAE0HlQ3NsLnRvXigVJtwRidOnosUw==",
-      "type": "package",
-      "path": "ffmpeg.autogen/4.3.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.txt",
-        "ffmpeg.autogen.4.3.0.1.nupkg.sha512",
-        "ffmpeg.autogen.nuspec",
-        "lib/net40/FFmpeg.AutoGen.dll",
-        "lib/net40/FFmpeg.AutoGen.xml",
-        "lib/net45/FFmpeg.AutoGen.dll",
-        "lib/net45/FFmpeg.AutoGen.xml",
-        "lib/net472/FFmpeg.AutoGen.dll",
-        "lib/net472/FFmpeg.AutoGen.xml",
-        "lib/netstandard2.0/FFmpeg.AutoGen.dll",
-        "lib/netstandard2.0/FFmpeg.AutoGen.xml",
-        "lib/netstandard2.1/FFmpeg.AutoGen.dll",
-        "lib/netstandard2.1/FFmpeg.AutoGen.xml"
-      ]
-    },
     "HarfBuzzSharp/7.3.0": {
       "sha512": "OrQLaxtZMIeS2yHSUtsKzeSdk9CPaCpyJ/JCs+wLfRGatjE8MLUS6LGj6vdbGRxqRavcXs79C9O3oWe6FJR0JQ==",
       "type": "package",
@@ -3294,41 +3176,6 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "Microsoft.Win32.SystemEvents/8.0.0": {
-      "sha512": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw==",
-      "type": "package",
-      "path": "microsoft.win32.systemevents/8.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Win32.SystemEvents.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Win32.SystemEvents.targets",
-        "lib/net462/Microsoft.Win32.SystemEvents.dll",
-        "lib/net462/Microsoft.Win32.SystemEvents.xml",
-        "lib/net6.0/Microsoft.Win32.SystemEvents.dll",
-        "lib/net6.0/Microsoft.Win32.SystemEvents.xml",
-        "lib/net7.0/Microsoft.Win32.SystemEvents.dll",
-        "lib/net7.0/Microsoft.Win32.SystemEvents.xml",
-        "lib/net8.0/Microsoft.Win32.SystemEvents.dll",
-        "lib/net8.0/Microsoft.Win32.SystemEvents.xml",
-        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
-        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.xml",
-        "microsoft.win32.systemevents.8.0.0.nupkg.sha512",
-        "microsoft.win32.systemevents.nuspec",
-        "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll",
-        "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.xml",
-        "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll",
-        "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.xml",
-        "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll",
-        "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.xml",
-        "useSharedDesignerContext.txt"
-      ]
-    },
     "NETStandard.Library/1.6.0": {
       "sha512": "ypsCvIdCZ4IoYASJHt6tF2fMo7N30NLgV1EbmC+snO490OMl9FvVxmumw14rhReWU3j3g7BYudG6YCrchwHJlA==",
       "type": "package",
@@ -3342,10 +3189,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "OpenCvSharp4/4.9.0.20240103": {
-      "sha512": "+BJMqToSH3dl+5SUF2YaPI+1eY/o/aTtvCQsY3qgcE4YS8qvPNS7MObzzVy4avYrBmcEEFnCvNF+1VbFnQjU9w==",
+    "OpenCvSharp4/4.10.0.20240616": {
+      "sha512": "+iaFSUq0Cp+B9s1sUqDwB3PvQ5HdWWvRE50WsAw1PL8smD3VZNbe0P786E4Yfu7LHM7jeqkulOwjk2CoihsZeg==",
       "type": "package",
-      "path": "opencvsharp4/4.9.0.20240103",
+      "path": "opencvsharp4/4.10.0.20240616",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3357,20 +3204,8 @@
         "lib/netstandard2.0/OpenCvSharp.xml",
         "lib/netstandard2.1/OpenCvSharp.dll",
         "lib/netstandard2.1/OpenCvSharp.xml",
-        "opencvsharp4.4.9.0.20240103.nupkg.sha512",
+        "opencvsharp4.4.10.0.20240616.nupkg.sha512",
         "opencvsharp4.nuspec"
-      ]
-    },
-    "OpenCvSharp4.runtime.ubuntu.22.04-x64/4.6.0-SNAPSHOT": {
-      "sha512": "Zh24714WI0pMDMRMt7XfVaYx2fe1J8v6JGjePxAcO5+WhVnu07mljaQgohFT2ZEnboj1Ss8ZejMGSpbmxMks9Q==",
-      "type": "package",
-      "path": "opencvsharp4.runtime.ubuntu.22.04-x64/4.6.0-snapshot",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "opencvsharp4.runtime.ubuntu.22.04-x64.4.6.0-snapshot.nupkg.sha512",
-        "opencvsharp4.runtime.ubuntu.22.04-x64.nuspec",
-        "runtimes/ubuntu.22.04-x64/native/libOpenCvSharpExtern.so"
       ]
     },
     "QRCoder/1.4.3": {
@@ -4217,46 +4052,6 @@
         "ref/xamarinwatchos10/_._",
         "system.diagnostics.tracing.4.1.0.nupkg.sha512",
         "system.diagnostics.tracing.nuspec"
-      ]
-    },
-    "System.Drawing.Common/8.0.4": {
-      "sha512": "3G4xpa8mUYGzEF0HlswlBArAFywHJIzsZoB5hU4yMlnYHaabj/lg019BwbyyYBxj0aoM7Cz+jdlgUemeno9LOQ==",
-      "type": "package",
-      "path": "system.drawing.common/8.0.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/System.Drawing.Common.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/System.Drawing.Common.targets",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net462/System.Drawing.Common.dll",
-        "lib/net462/System.Drawing.Common.pdb",
-        "lib/net462/System.Drawing.Common.xml",
-        "lib/net6.0/System.Drawing.Common.dll",
-        "lib/net6.0/System.Drawing.Common.pdb",
-        "lib/net6.0/System.Drawing.Common.xml",
-        "lib/net7.0/System.Drawing.Common.dll",
-        "lib/net7.0/System.Drawing.Common.pdb",
-        "lib/net7.0/System.Drawing.Common.xml",
-        "lib/net8.0/System.Drawing.Common.dll",
-        "lib/net8.0/System.Drawing.Common.pdb",
-        "lib/net8.0/System.Drawing.Common.xml",
-        "lib/netstandard2.0/System.Drawing.Common.dll",
-        "lib/netstandard2.0/System.Drawing.Common.pdb",
-        "lib/netstandard2.0/System.Drawing.Common.xml",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "system.drawing.common.8.0.4.nupkg.sha512",
-        "system.drawing.common.nuspec",
-        "useSharedDesignerContext.txt"
       ]
     },
     "System.Dynamic.Runtime/4.3.0": {
@@ -7036,17 +6831,14 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net9.0": [
       "Avalonia >= 11.0.10",
       "Avalonia.Desktop >= 11.0.10",
       "Avalonia.Diagnostics >= 11.0.10",
       "Avalonia.Fonts.Inter >= 11.0.10",
       "Avalonia.Themes.Fluent >= 11.0.10",
-      "FFMediaToolkit >= 3.3.0",
-      "OpenCvSharp4 >= 4.9.0.20240103",
-      "OpenCvSharp4.runtime.ubuntu.22.04-x64 >= 4.6.0-SNAPSHOT",
+      "OpenCvSharp4 >= 4.10.0.20240616",
       "QRCoder >= 1.4.3",
-      "System.Drawing.Common >= 8.0.4",
       "ZXing.Net.Core >= 0.2.7"
     ]
   },
@@ -7066,14 +6858,15 @@
         "/home/user/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {}
         }
       },
@@ -7081,11 +6874,17 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net9.0": {
+        "targetAlias": "net9.0",
         "dependencies": {
           "Avalonia": {
             "target": "Package",
@@ -7107,25 +6906,13 @@
             "target": "Package",
             "version": "[11.0.10, )"
           },
-          "FFMediaToolkit": {
-            "target": "Package",
-            "version": "[3.3.0, )"
-          },
           "OpenCvSharp4": {
             "target": "Package",
-            "version": "[4.9.0.20240103, )"
-          },
-          "OpenCvSharp4.runtime.ubuntu.22.04-x64": {
-            "target": "Package",
-            "version": "[4.6.0-SNAPSHOT, )"
+            "version": "[4.10.0.20240616, )"
           },
           "QRCoder": {
             "target": "Package",
             "version": "[1.4.3, )"
-          },
-          "System.Drawing.Common": {
-            "target": "Package",
-            "version": "[8.0.4, )"
           },
           "ZXing.Net.Core": {
             "target": "Package",
@@ -7148,7 +6935,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.104/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

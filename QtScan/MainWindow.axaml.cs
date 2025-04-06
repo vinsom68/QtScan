@@ -22,6 +22,10 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
+//TODO when buildin copy
+///home/user/Documents/DEV/QtScan/QtScan/bin/Debug/net9.0/runtimes/linux-x64/native/libOpenCvSharpExtern.so
+///home/user/Documents/DEV/QtScan/QtScan/bin/Debug/net9.0/runtimes/linux-x64/native/OpenCvSharpExtern.so
+
 namespace QtScan
 {
     public partial class MainWindow : Avalonia.Controls.Window
