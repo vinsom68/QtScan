@@ -9,7 +9,7 @@
 
 	
    <StackPanel>
-      <TextBox Name="QrText" TextChanged="QrText_TextChanged" Height="100"/>
+      <TextBox Name="QrText" TextChanged="QrText_TextChanged" AcceptsReturn="True" Height="100"/>
       <StackPanel x:Name="contentWrapper" Orientation="Horizontal">
         <Button Name="btnStartScan" Click="OnBtnStartScan">Scan</Button>
         <Button Name="btnStopScan" Click="OnBtnStopScan" IsVisible="false">Stop</Button>
