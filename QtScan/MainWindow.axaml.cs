@@ -22,10 +22,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-//TODO when buildin copy
-///home/user/Documents/DEV/QtScan/QtScan/bin/Debug/net9.0/runtimes/linux-x64/native/libOpenCvSharpExtern.so
-///home/user/Documents/DEV/QtScan/QtScan/bin/Debug/net9.0/runtimes/linux-x64/native/OpenCvSharpExtern.so
-
 namespace QtScan
 {
     public partial class MainWindow : Avalonia.Controls.Window
@@ -39,20 +35,25 @@ namespace QtScan
             InitializeComponent();
             camera = new VideoCapture();
 
-            int deviceCount = 0;
-            Console.WriteLine("Video capture devices:");
-            while (true) 
-            {
-                if (!camera.Open(deviceCount)) 
-                    break; // Open the default video capture device
-                
-                cboDevices.Items.Add($"{camera.CaptureType.ToString()}-{deviceCount+1}");
-                camera.Release();
-                deviceCount++;
-            }
+            var videoDevices = Directory.GetFiles("/dev", "video*")
+                .OrderBy(f => f)
+                .ToList();
 
-            if(deviceCount>0)
-                cboDevices.SelectedIndex = 0;
+            foreach (var dev in videoDevices)
+            {
+                int index = int.Parse(Path.GetFileName(dev).Replace("video", ""));
+                using var cap = new VideoCapture(index, VideoCaptureAPIs.V4L2);
+                
+                // Add BOTH text and real camera index as the Tag
+                if (cap.IsOpened())
+                    cboDevices.Items.Add(new ComboBoxItem
+                    {
+                        Content = $"Camera {index} ({dev})",
+                        Tag = index
+                    });
+            }
+            
+            cboDevices.SelectedIndex = 0;
         }
 
 
@@ -70,14 +71,23 @@ namespace QtScan
             QrText.Text=string.Empty;
             tokenSource2=new();
             ct=tokenSource2.Token;
-            if(camera.Open(cboDevices.SelectedIndex))
+            
+            if (cboDevices.SelectedItem is ComboBoxItem item &&
+                item.Tag is int deviceIndex)
             {
-                btnStartScan.IsVisible=false;
-                btnStopScan.IsVisible=true;
-              _ = Task.Run(async () => {await ScanQrCode();}, tokenSource2.Token);
+                camera.Release(); // safety
+
+                if (camera.Open(deviceIndex, VideoCaptureAPIs.V4L2))
+                {
+                    btnStartScan.IsVisible = false;
+                    btnStopScan.IsVisible = true;
+                    _ = Task.Run(async () => await ScanQrCode(), ct);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to open camera {deviceIndex}");
+                }
             }
-            else
-                Console.WriteLine("Could not grab from the video capture device.");
 
         }
 
@@ -99,46 +109,55 @@ namespace QtScan
 
         private async Task<(IImage? image, string? text)> ScanQrCode()
         {
-            // Were we already canceled?
             ct.ThrowIfCancellationRequested();
-            Avalonia.Media.Imaging.Bitmap AvIrBitmap=null;
-            string[]? stringResult=null;
-            Mat frame= new Mat();
 
-            while (true) 
+            var detector = new QRCodeDetector();
+            var frame = new Mat();
+            Bitmap? lastImage = null;
+            string? foundText = null;
+
+            while (!ct.IsCancellationRequested)
             {
-                if (ct.IsCancellationRequested)
+                // Read frame
+                if (!camera.Read(frame) || frame.Empty())
                 {
-                    ct.ThrowIfCancellationRequested();
-                    break;
+                    await Task.Delay(30, ct);
+                    continue;
                 }
 
-                camera.Read(frame);
-                
-                MemoryStream memory=frame.ToMemoryStream(".png");
-                AvIrBitmap = new Avalonia.Media.Imaging.Bitmap(memory);
-                Dispatcher.UIThread.Post(async () => await SetImage(AvIrBitmap));
-                memory.Dispose();
-                
-                var decoder = new OpenCvSharp.QRCodeDetector();
-                Point2f[] points;
-                
-                if(decoder.DetectMulti(frame,out points))
+                // Convert to Avalonia Bitmap
+                using (var memory = frame.ToMemoryStream(".png"))
                 {
-                    if(decoder.DecodeMulti(frame,points,out stringResult))
+                    lastImage = new Bitmap(memory);
+                }
+
+                Dispatcher.UIThread.Post(() => SetImage(lastImage));
+
+                // Detect QR codes
+                if (detector.DetectMulti(frame, out Point2f[] points))
+                {
+                    // Decode
+                    if (detector.DecodeMulti(frame, points, out string[] results))
                     {
-                        camera.Release();
-                        Dispatcher.UIThread.Post(async () => await SetText(stringResult[0]));
-                        Dispatcher.UIThread.Post( () =>  StopScan(false));
-                        break;
+                        if (results.Length > 0)
+                        {
+                            foundText = results[0];
+
+                            Dispatcher.UIThread.Post(() =>
+                            {
+                                SetText(foundText);
+                                StopScan(false);
+                            });
+
+                            break;
+                        }
                     }
                 }
-                else
-                    Task.Delay(100).GetAwaiter().GetResult();
-
+                await Task.Delay(30, ct);
             }
 
-            return(AvIrBitmap,stringResult[0]);
+            return (lastImage, foundText);
+            
         }
 
         private async Task SetImage(IImage? image)
