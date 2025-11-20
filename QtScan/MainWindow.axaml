@@ -11,10 +11,10 @@
    <StackPanel>
       <TextBox Name="QrText" TextChanged="QrText_TextChanged" AcceptsReturn="True" Height="100"/>
       <StackPanel x:Name="contentWrapper" Orientation="Horizontal">
-        <Button Name="btnStartScan" Click="OnBtnStartScan">Scan</Button>
-        <Button Name="btnStopScan" Click="OnBtnStopScan" IsVisible="false">Stop</Button>
-        <ComboBox Name="cboDevices"></ComboBox>
-	    <Button Name="btnOpenFile" Click="OnBtnOpenFile">File</Button>
+        <Button Name="btnStartScan" Click="OnBtnStartScan" Width="70">Scan</Button>
+        <Button Name="btnStopScan" Click="OnBtnStopScan" IsVisible="false" Width="70">Stop</Button>
+        <ComboBox Name="cboDevices" Width="240"></ComboBox>
+	    <Button Name="btnOpenFile" Click="OnBtnOpenFile" Width="70">File</Button>
       </StackPanel>
       <Image Name="QrImage" Margin="10"></Image>
    </StackPanel>
