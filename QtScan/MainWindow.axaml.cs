@@ -139,7 +139,7 @@ namespace QtScan
                     // Decode
                     if (detector.DecodeMulti(frame, points, out string[] results))
                     {
-                        if (results.Length > 0)
+                        if (results.Length > 0 && ! string.IsNullOrEmpty(results[0]))
                         {
                             foundText = results[0];
 
