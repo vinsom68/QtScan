@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
         x:Class="QtScan.MainWindow"
-        Title="QtScan" Height="420" Width="280">
+        Title="QtScan" Height="500" Width="380">
    
 
 	
@@ -14,6 +14,7 @@
         <Button Name="btnStartScan" Click="OnBtnStartScan">Scan</Button>
         <Button Name="btnStopScan" Click="OnBtnStopScan" IsVisible="false">Stop</Button>
         <ComboBox Name="cboDevices"></ComboBox>
+	    <Button Name="btnOpenFile" Click="OnBtnOpenFile">File</Button>
       </StackPanel>
       <Image Name="QrImage" Margin="10"></Image>
    </StackPanel>

@@ -159,6 +159,72 @@ namespace QtScan
             return (lastImage, foundText);
             
         }
+        
+        private async void OnBtnOpenFile(object? sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+            {
+                Title = "Open QR Image",
+                AllowMultiple = false,
+                Filters = new System.Collections.Generic.List<FileDialogFilter>
+                {
+                    new FileDialogFilter { Name = "Images", Extensions = new System.Collections.Generic.List<string> { "png", "jpg", "jpeg", "bmp", "gif" } }
+                }
+            };
+
+            var result = await dlg.ShowAsync(this);
+            if (result == null || result.Length == 0)
+                return;
+
+            var path = result[0];
+
+            Mat mat;
+            try
+            {
+                var bytes = File.ReadAllBytes(path);
+                mat = Cv2.ImDecode(bytes, ImreadModes.Color);
+                if (mat.Empty())
+                    return;
+            }
+            catch
+            {
+                return;
+            }
+
+            // Display image in UI
+            using (var ms = mat.ToMemoryStream(".png"))
+            {
+                var avaloniaBitmap = new Bitmap(ms);
+                Dispatcher.UIThread.Post(() => SetImage(avaloniaBitmap));
+            }
+
+            // Try OpenCv QR detection/decoding
+            using var detector = new QRCodeDetector();
+
+            // Single decode: use overload with out points
+            var decoded = detector.DetectAndDecode(mat, out Point2f[] points);
+            if (!string.IsNullOrEmpty(decoded))
+            {
+                Dispatcher.UIThread.Post(() => SetText(decoded));
+                return;
+            }
+
+            // Try multi decode (if multiple QR codes)
+            if (detector.DetectMulti(mat, out Point2f[] multiPoints) &&
+                detector.DecodeMulti(mat, multiPoints, out string[] results))
+            {
+                if (results.Length > 0 && !string.IsNullOrEmpty(results[0]))
+                {
+                    Dispatcher.UIThread.Post(() => SetText(results[0]));
+                    return;
+                }
+            }
+
+            // No QR found: clear text
+            Dispatcher.UIThread.Post(() => SetText(string.Empty));
+        }
+
+        
 
         private async Task SetImage(IImage? image)
         {
