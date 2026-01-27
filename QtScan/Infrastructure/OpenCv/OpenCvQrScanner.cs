@@ -21,17 +21,26 @@ public sealed class OpenCvQrScanner : IQrScanner
         var devices = new List<CameraDevice>();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            foreach (var devicePath in Directory.GetFiles("/dev", "video*").OrderBy(path => path))
+            var previousLevel = Cv2.GetLogLevel();
+            Cv2.SetLogLevel(LogLevel.ERROR);
+            try
             {
-                if (!TryParseDeviceIndex(devicePath, out var index))
+                foreach (var devicePath in Directory.GetFiles("/dev", "video*").OrderBy(path => path))
                 {
-                    continue;
-                }
+                    if (!TryParseDeviceIndex(devicePath, out var index))
+                    {
+                        continue;
+                    }
 
-                if (CanOpen(index))
-                {
-                    devices.Add(new CameraDevice(index, $"Camera {index} ({devicePath})"));
+                    if (CanOpen(index))
+                    {
+                        devices.Add(new CameraDevice(index, $"Camera {index} ({devicePath})"));
+                    }
                 }
+            }
+            finally
+            {
+                Cv2.SetLogLevel(previousLevel);
             }
         }
         else
