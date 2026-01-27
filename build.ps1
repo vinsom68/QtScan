@@ -1,13 +1,16 @@
 param(
   [Parameter(Mandatory = $false)]
-  [ValidateSet('desktop','ios')]
+  [ValidateSet('desktop','ios','test')]
   [string]$Target = 'desktop'
 )
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $project = Join-Path $root 'QtScan/QtScan.csproj'
 
-if ($Target -eq 'ios') {
+if ($Target -eq 'test') {
+  Write-Host 'Running tests...'
+  dotnet test (Join-Path $root 'QtScan.Tests/QtScan.Tests.csproj')
+} elseif ($Target -eq 'ios') {
   if ($env:OS -ne 'Darwin') {
     Write-Error 'iOS builds require macOS with Xcode installed.'
     exit 1

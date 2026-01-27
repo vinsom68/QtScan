@@ -4,7 +4,10 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 project="$script_dir/QtScan/QtScan.csproj"
 
-if [[ "${1:-}" == "ios" ]]; then
+if [[ "${1:-}" == "test" ]]; then
+  echo "Running tests..."
+  dotnet test "$script_dir/QtScan.Tests/QtScan.Tests.csproj"
+elif [[ "${1:-}" == "ios" ]]; then
   if [[ "$(uname -s)" != "Darwin" ]]; then
     echo "iOS builds require macOS with Xcode installed." >&2
     exit 1

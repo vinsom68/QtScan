@@ -1,5 +1,12 @@
 # QtScan
 
+## Main features
+
+- Live QR scanning from connected cameras (Windows/Linux; iOS camera support in progress)
+- Decode QR codes from image files (desktop) or photo picker (iOS)
+- Generate QR codes from typed text
+- Real-time preview of the current scan/frame
+
 ## Build
 
 ### Desktop (Windows/Linux)
@@ -40,3 +47,9 @@ Or use the helper scripts:
 ## Notes
 
 - The project is multi-targeted (`net9.0;net9.0-ios`). Use the `-p:TargetFrameworks=...` override when building a single target.
+
+## Testing
+
+```bash
+dotnet test QtScan.Tests/QtScan.Tests.csproj
+```
