@@ -399,3 +399,9 @@ FodyWeavers.xsd
 .idea/
 /obj
 
+# Snapcraft build artifacts
+*.snap
+.snapcraft/
+parts/
+prime/
+stage/

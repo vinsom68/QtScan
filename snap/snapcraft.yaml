@@ -5,6 +5,8 @@ summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
 icon: QtScan/QtScan.png
+source-code: https://github.com/vinsom68/QtScan
+
 
 grade: devel
 confinement: strict
@@ -16,8 +18,24 @@ parts:
     dotnet-configuration: Release
     dotnet-project: QtScan/QtScan.csproj
     dotnet-self-contained: true
+    override-build: |
+      set -euo pipefail
+      dotnet publish QtScan/QtScan.csproj \
+        --configuration Release \
+        --runtime ubuntu.24.04-x64 \
+        --self-contained true \
+        --framework net9.0 \
+        --output "$SNAPCRAFT_PART_INSTALL"
+      runtime_root="$HOME/.nuget/packages/opencvsharp4.unofficial.runtime.ubuntu.24.04-x64"
+      if [ -d "$runtime_root" ]; then
+        runtime_dir="$(ls -1d "$runtime_root"/* 2>/dev/null | sort -V | tail -n 1)/runtimes/ubuntu.24.04-x64/native"
+        if [ -d "$runtime_dir" ]; then
+          cp -av "$runtime_dir"/libopencv_*.so* "$SNAPCRAFT_PART_INSTALL"/
+        fi
+      fi
     # Adjust if you use a different output name or add resources.
     stage-packages:
+      - liblttng-ust1t64
       - libglib2.0-0
       - libsm6
       - libx11-6
