@@ -1,0 +1,54 @@
+name: qtscan
+base: core24
+version: '0.1.0'
+summary: QtScan QR scanner
+description: |
+  QtScan scans QR codes from a camera or image files and can generate QR codes from text.
+icon: QtScan/QtScan.png
+
+grade: devel
+confinement: strict
+
+parts:
+  qtscan:
+    plugin: dotnet
+    source: .
+    dotnet-configuration: Release
+    dotnet-project: QtScan/QtScan.csproj
+    dotnet-self-contained: true
+    # Adjust if you use a different output name or add resources.
+    stage-packages:
+      - libglib2.0-0
+      - libsm6
+      - libx11-6
+      - libxext6
+      - libxrender1
+      - libxrandr2
+      - libxcursor1
+      - libxi6
+      - libxinerama1
+      - libxkbcommon0
+      - libxkbcommon-x11-0
+      - libxcomposite1
+      - libxdamage1
+      - libfontconfig1
+      - libfreetype6
+      - libstdc++6
+    build-packages:
+      - dotnet-sdk-9.0
+
+apps:
+  qtscan:
+    command: QtScan
+    extensions:
+      - dotnet9
+    plugs:
+      - camera
+      - home
+      - opengl
+      - x11
+      - wayland
+      - desktop
+      - desktop-legacy
+      - network
+      - removable-media

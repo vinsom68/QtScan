@@ -7,6 +7,10 @@
 - Generate QR codes from typed text
 - Real-time preview of the current scan/frame
 
+## Screenshot
+
+![QtScan screenshot](Readme.png)
+
 ## Build
 
 ### Desktop (Windows/Linux)
@@ -53,3 +57,26 @@ Or use the helper scripts:
 ```bash
 dotnet test QtScan.Tests/QtScan.Tests.csproj
 ```
+
+## Snap packaging (Ubuntu App Store)
+
+QtScan can be published to the Ubuntu App Store (Snap Store). The Snap configuration lives at `snap/snapcraft.yaml`.
+
+Basic workflow (run on Ubuntu):
+
+```bash
+snapcraft
+snapcraft login
+snapcraft register qtscan
+snapcraft push --release=edge qtscan_*.snap
+```
+
+Or use the helper script:
+
+```bash
+./build.sh snap
+```
+
+Notes:
+- You may need to install the `snapcraft` snap first: `sudo snap install snapcraft --classic`
+- If `dotnet-sdk-9.0` is unavailable in your build environment, adjust the `build-packages` entry in `snap/snapcraft.yaml` or build with a compatible SDK.
