@@ -4,7 +4,7 @@ version: '0.1.0'
 summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
-icon: snap/icon.png
+icon: snap/icon-4.png
 source-code: https://github.com/vinsom68/QtScan
 
 
@@ -16,10 +16,6 @@ parts:
     plugin: cmake
     source: https://github.com/opencv/opencv/archive/4.12.0.tar.gz
     source-type: tar
-    override-pull: |
-      snapcraftctl pull
-      curl -L https://github.com/opencv/opencv_contrib/archive/4.12.0.tar.gz -o opencv_contrib.tar.gz
-      tar xf opencv_contrib.tar.gz
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -28,7 +24,7 @@ parts:
       - -DBUILD_PERF_TESTS=OFF
       - -DBUILD_DOCS=OFF
       - -DBUILD_EXAMPLES=OFF
-      - -DOPENCV_EXTRA_MODULES_PATH=${SNAPCRAFT_PART_SRC}/opencv_contrib-4.12.0/modules
+      - -DBUILD_LIST=core,imgproc,imgcodecs,videoio,objdetect
     build-packages:
       - build-essential
       - curl
@@ -42,12 +38,6 @@ parts:
       - libv4l-dev
       - libjpeg-dev
       - libpng-dev
-      - libtiff-dev
-      - libopenexr-dev
-      - libtbb-dev
-      - libeigen3-dev
-      - liblapack-dev
-      - libblas-dev
     stage-packages:
       - libgtk-3-0
       - libavcodec60
@@ -56,11 +46,6 @@ parts:
       - libv4l-0
       - libjpeg-turbo8
       - libpng16-16
-      - libtiff6
-      - libopenexr-3-1-30
-      - libtbb12
-      - liblapack3
-      - libblas3
   qtscan:
     plugin: dotnet
     source: .
@@ -86,7 +71,7 @@ parts:
       arch_triplet="$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
       target_lib="$SNAPCRAFT_PART_INSTALL/usr/lib/$arch_triplet"
       mkdir -p "$target_lib"
-      runtime_root="$NUGET_PACKAGES/opencvsharp4.unofficial.runtime.ubuntu.24.04-x64"
+      runtime_root="$NUGET_PACKAGES/oneware.opencvsharp4.runtime.ubuntu.24.04-x64"
       runtime_version="$(ls -1d "$runtime_root"/* 2>/dev/null | sort -V | tail -n 1)"
       runtime_dir=""
       if [ -n "$runtime_version" ]; then
@@ -97,6 +82,9 @@ parts:
         fi
       fi
       if [ -z "$runtime_dir" ]; then
+        runtime_dir="$(find "$NUGET_PACKAGES" -path "*/runtimes/*/native/libOpenCvSharpExtern.so*" -print 2>/dev/null | sort -V | tail -n 1 | xargs -r dirname)"
+      fi
+      if [ -z "${runtime_dir:-}" ]; then
         echo "OpenCvSharp runtime native libs not found." >&2
         exit 1
       fi

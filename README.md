@@ -71,12 +71,8 @@ snapcraft register qtscan
 snapcraft push --release=edge qtscan_*.snap
 ```
 
-Or use the helper script:
 
-```bash
-./build.sh snap
-```
+sudo SNAPCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS=1 snapcraft pack --destructive-mode
+snapcraft upload qtscan_0.1.0_amd64.snap
+snapcraft release qtscan [release] beta
 
-Notes:
-- You may need to install the `snapcraft` snap first: `sudo snap install snapcraft --classic`
-- If `dotnet-sdk-9.0` is unavailable in your build environment, adjust the `build-packages` entry in `snap/snapcraft.yaml` or build with a compatible SDK.
