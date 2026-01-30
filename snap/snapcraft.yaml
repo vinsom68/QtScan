@@ -31,6 +31,8 @@ parts:
       - -DOPENCV_EXTRA_MODULES_PATH=${SNAPCRAFT_PART_SRC}/opencv_contrib-4.12.0/modules
     build-packages:
       - build-essential
+      - curl
+      - ca-certificates
       - cmake
       - pkg-config
       - libgtk-3-dev
