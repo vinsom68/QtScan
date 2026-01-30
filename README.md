@@ -73,6 +73,14 @@ snapcraft push --release=edge qtscan_*.snap
 
 
 sudo SNAPCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS=1 snapcraft pack --destructive-mode
-snapcraft upload qtscan_0.1.0_amd64.snap
+snapcraft upload qtscan_0.1.1_amd64.snap
 snapcraft release qtscan [release] beta
 
+sudo snap connect qtscan:camera
+
+OR
+
+Auto‑connect in the Snap Store (recommended)
+Camera is a restricted interface; most snaps need store approval for auto‑connect.
+If granted, users won’t have to run snap connect.
+Request it in the Snapcraft Store “Permissions” page for your snap (or file a forum request).

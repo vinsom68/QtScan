@@ -20,8 +20,8 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.9" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.9" />
-    <PackageReference Include="OneWare.OpenCvSharp4.runtime.ubuntu.24.04-x64" Version="4.13.0.16" />
     <PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
+    <PackageReference Include="OpenCvSharp4.unofficial.runtime.ubuntu.24.04-x64" Version="4.12.0.20250708" />
     <PackageReference Include="QRCoder" Version="1.7.0" />
     <PackageReference Include="ZXing.Net.Core" Version="0.2.7" />
     <Reference Include="netstandard" />

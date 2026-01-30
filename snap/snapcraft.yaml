@@ -1,10 +1,10 @@
 name: qtscan
 base: core24
-version: '0.1.0'
+version: '0.1.1'
 summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
-icon: snap/icon-4.png
+icon: snap/icon-0.png
 source-code: https://github.com/vinsom68/QtScan
 
 
@@ -71,7 +71,7 @@ parts:
       arch_triplet="$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
       target_lib="$SNAPCRAFT_PART_INSTALL/usr/lib/$arch_triplet"
       mkdir -p "$target_lib"
-      runtime_root="$NUGET_PACKAGES/oneware.opencvsharp4.runtime.ubuntu.24.04-x64"
+      runtime_root="$NUGET_PACKAGES/opencvsharp4.unofficial.runtime.ubuntu.24.04-x64"
       runtime_version="$(ls -1d "$runtime_root"/* 2>/dev/null | sort -V | tail -n 1)"
       runtime_dir=""
       if [ -n "$runtime_version" ]; then
@@ -80,9 +80,6 @@ parts:
         elif [ -d "$runtime_version/runtimes/linux-x64/native" ]; then
           runtime_dir="$runtime_version/runtimes/linux-x64/native"
         fi
-      fi
-      if [ -z "$runtime_dir" ]; then
-        runtime_dir="$(find "$NUGET_PACKAGES" -path "*/runtimes/*/native/libOpenCvSharpExtern.so*" -print 2>/dev/null | sort -V | tail -n 1 | xargs -r dirname)"
       fi
       if [ -z "${runtime_dir:-}" ]; then
         echo "OpenCvSharp runtime native libs not found." >&2
@@ -114,6 +111,11 @@ parts:
       - libfontconfig1
       - libfreetype6
       - libstdc++6
+      - libgl1
+      - libgl1-mesa-dri
+      - libtesseract4
+      - liblept5
+      - libgtk2.0-0
       # OpenCV runtime libs (Ubuntu 24.04)
     override-stage: |
       snapcraftctl stage
