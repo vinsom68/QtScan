@@ -1,6 +1,6 @@
 name: qtscan
 base: core24
-version: '0.1.7'
+version: '0.1.8'
 summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
@@ -56,6 +56,17 @@ parts:
       - libopenexr-3-1-30
     override-prime: |
       snapcraftctl prime
+      arch_triplet="$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
+      libdir="$SNAPCRAFT_PRIME/usr/lib/$arch_triplet"
+      if [ -d "$libdir" ]; then
+        for base in libglib-2.0.so.0 libgobject-2.0.so.0 libgio-2.0.so.0 libgthread-2.0.so.0 libgmodule-2.0.so.0; do
+          found="$(ls -1 "$libdir"/${base}.* 2>/dev/null | sort -V)"
+          latest="$(printf "%s\n" "$found" | tail -n 1)"
+          if [ -n "$latest" ]; then
+            ln -sf "$(basename "$latest")" "$libdir/$base"
+          fi
+        done
+      fi
       arch_triplet="$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
       libdir="$SNAPCRAFT_PRIME/usr/lib/$arch_triplet"
       if [ -d "$libdir" ]; then
