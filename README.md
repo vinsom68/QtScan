@@ -75,6 +75,7 @@ snapcraft push --release=edge qtscan_*.snap
 sudo SNAPCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS=1 snapcraft pack --destructive-mode
 snapcraft upload qtscan_0.1.1_amd64.snap
 snapcraft release qtscan [release] beta
+snap run qtscan
 
 sudo snap connect qtscan:camera
 

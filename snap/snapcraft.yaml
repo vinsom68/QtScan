@@ -1,10 +1,10 @@
 name: qtscan
 base: core24
-version: '0.1.1'
+version: '0.1.7'
 summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
-icon: snap/icon-0.png
+icon: snap/icon-3.png
 source-code: https://github.com/vinsom68/QtScan
 
 
@@ -16,6 +16,12 @@ parts:
     plugin: cmake
     source: https://github.com/opencv/opencv/archive/4.12.0.tar.gz
     source-type: tar
+    override-pull: |
+      snapcraftctl pull
+      curl -L -o "$SNAPCRAFT_PART_SRC/opencv_contrib-4.12.0.tar.gz" \
+        https://github.com/opencv/opencv_contrib/archive/4.12.0.tar.gz
+      tar -xzf "$SNAPCRAFT_PART_SRC/opencv_contrib-4.12.0.tar.gz" -C "$SNAPCRAFT_PART_SRC"
+      mv "$SNAPCRAFT_PART_SRC/opencv_contrib-4.12.0" "$SNAPCRAFT_PART_SRC/opencv_contrib"
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -24,7 +30,7 @@ parts:
       - -DBUILD_PERF_TESTS=OFF
       - -DBUILD_DOCS=OFF
       - -DBUILD_EXAMPLES=OFF
-      - -DBUILD_LIST=core,imgproc,imgcodecs,videoio,objdetect
+      - -DOPENCV_EXTRA_MODULES_PATH=$SNAPCRAFT_PART_SRC/opencv_contrib/modules
     build-packages:
       - build-essential
       - curl
@@ -46,6 +52,24 @@ parts:
       - libv4l-0
       - libjpeg-turbo8
       - libpng16-16
+      - libwebpdemux2
+      - libopenexr-3-1-30
+    override-prime: |
+      snapcraftctl prime
+      arch_triplet="$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
+      libdir="$SNAPCRAFT_PRIME/usr/lib/$arch_triplet"
+      if [ -d "$libdir" ]; then
+        for lib in "$libdir"/libopencv_*.so.*; do
+          [ -e "$lib" ] || continue
+          base="$(basename "$lib")"
+          case "$base" in
+            *.so.*.*)
+              soname="${base%.*}"
+              ln -sf "$base" "$libdir/$soname"
+              ;;
+          esac
+        done
+      fi
   qtscan:
     plugin: dotnet
     source: .
@@ -95,7 +119,7 @@ parts:
     # Adjust if you use a different output name or add resources.
     stage-packages:
       - liblttng-ust1t64
-      - libglib2.0-0
+      - libglib2.0-0t64
       - libsm6
       - libx11-6
       - libxext6
@@ -113,7 +137,7 @@ parts:
       - libstdc++6
       - libgl1
       - libgl1-mesa-dri
-      - libtesseract4
+      - libtesseract5
       - liblept5
       - libgtk2.0-0
       # OpenCV runtime libs (Ubuntu 24.04)
