@@ -1,10 +1,10 @@
 name: qtscan
 base: core24
-version: '0.1.12'
+version: '0.1.13'
 summary: QtScan QR scanner
 description: |
   QtScan scans QR codes from a camera or image files and can generate QR codes from text.
-icon: snap/icon-3.png
+icon: snap/icon-0.png
 source-code: https://github.com/vinsom68/QtScan
 
 
